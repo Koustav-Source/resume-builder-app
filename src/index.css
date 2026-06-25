@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Resume template styles. These live in plain CSS (not Tailwind utilities) so
+   the exact same rules apply in the browser preview AND when the node is
+   captured for PDF / printed via @media print — the core of download parity.
+   Design tokens are injected as CSS variables by ResumePreview.
+   =========================================================================== */
+
+/* A4 page surface. 794px ≈ 210mm at 96dpi. */
+.rp {
+  width: 794px;
+  min-height: 1123px; /* A4 height at 96dpi */
+  background: #fff;
+  color: #1f2937;
+  padding: 48px 52px;
+  font-size: var(--fs-base);
+  line-height: var(--lh);
+  box-sizing: border-box;
+}
+
+.rp-header { text-align: center; padding-bottom: 12px; }
+.rp-name {
+  font-size: var(--fs-name);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  margin: 0;
+  color: #111827;
+}
+.rp-role { font-size: var(--fs-role); color: var(--accent); font-weight: 600; margin-top: 2px; }
+.rp-contact { font-size: calc(var(--fs-base) * 0.92); color: #4b5563; margin-top: 6px; }
+.rp-sep { color: #9ca3af; }
+
+.rp-section { margin-top: var(--gap); }
+.rp-h2 {
+  font-size: var(--fs-section);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--accent);
+  border-bottom: 1.5px solid var(--accent);
+  padding-bottom: 3px;
+  margin: 0 0 6px;
+}
+.rp-summary { margin: 0; }
+.rp-skills { display: flex; flex-direction: column; gap: 2px; }
+.rp-skillcat { font-weight: 600; color: #111827; }
+
+.rp-entry { margin-bottom: 8px; break-inside: avoid; }
+.rp-entry-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.rp-entry-title { font-weight: 600; color: #111827; }
+.rp-entry-date { font-size: calc(var(--fs-base) * 0.88); color: #6b7280; white-space: nowrap; }
+.rp-entry-sub { font-size: calc(var(--fs-base) * 0.92); color: #4b5563; font-style: italic; margin-bottom: 2px; }
+.rp-entry-detail { font-size: calc(var(--fs-base) * 0.95); }
+.rp-ul { margin: 3px 0 0; padding-left: 18px; }
+.rp-ul li { margin-bottom: 2px; }
+
+/* ---- Two-column layouts ---- */
+.rp-cols { display: flex; gap: 22px; margin-top: var(--gap); }
+.rp-side { width: 34%; flex-shrink: 0; }
+.rp-main { flex: 1; min-width: 0; }
+
+/* ---- Template variants ---- */
+/* Classic: simple, centered header. (base styles) */
+
+/* Modern sidebar: tinted aside */
+.rp-modern-sidebar .rp-side {
+  background: color-mix(in srgb, var(--accent) 8%, #fff);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.rp-modern-sidebar .rp-header { text-align: left; border-bottom: 2px solid var(--accent); }
+
+/* Minimal serif: thin rules, letterspaced headings */
+.rp-minimal-serif .rp-h2 { border-bottom-width: 0.5px; letter-spacing: 1.4px; }
+.rp-minimal-serif .rp-name { letter-spacing: 1px; }
+
+/* Tech compact: tighter spacing */
+.rp-tech-compact { padding: 40px 46px; }
+.rp-tech-compact .rp-section { margin-top: calc(var(--gap) * 0.8); }
+.rp-tech-compact .rp-entry { margin-bottom: 6px; }
+
+/* Fresher focus: accent name underline */
+.rp-fresher-focus .rp-header { border-bottom: 3px double var(--accent); }
+
+/* Executive two-tone: colored header band */
+.rp-header-band {
+  background: var(--accent);
+  color: #fff;
+  text-align: left;
+  margin: -48px -52px 0;
+  padding: 28px 52px 22px;
+  border-radius: 0;
+}
+.rp-executive-two .rp-header-band .rp-name { color: #fff; }
+.rp-executive-two .rp-header-band .rp-role { color: rgba(255,255,255,0.9); }
+.rp-executive-two .rp-header-band .rp-contact { color: rgba(255,255,255,0.85); }
+.rp-executive-two .rp-header-band .rp-sep { color: rgba(255,255,255,0.55); }
+
+/* ---- Print rules (used by headless Chromium server path) ---- */
+@media print {
+  @page { size: A4; margin: 0; }
+  body { margin: 0; }
+  .rp { box-shadow: none; width: 100%; min-height: auto; }
+  .rp-section, .rp-entry { break-inside: avoid; }
+}
